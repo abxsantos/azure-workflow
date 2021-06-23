@@ -30,7 +30,11 @@ stages:
         displayName: Prepare
         inputs:
           targetType: 'inline'
-          script: 'env | sort'
+          script: |
+            IS_RELEASE=contains('release/', $(System.PullRequest.SourceBranch))
+            echo "$IS_RELEASE"
+            echo "latest-qa"
+            echo "$(Build.BuildId)-$(Build.SourceVersion)"
       - task: Bash@3
         displayName: Build Stage
         inputs:
