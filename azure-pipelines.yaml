@@ -8,11 +8,3 @@ steps:
 
 - script: ls -la
   displayName: 'List files'
-
-- task: Lint check files
-  inputs:
-    targetType: 'inline'
-    script: |
-      python3 --version
-      pip3 install black
-      python3 black --check
