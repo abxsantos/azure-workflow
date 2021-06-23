@@ -7,10 +7,6 @@ stages:
 - stage:
   jobs:
   - job:
-    variables:
-      - group: publish-to-ecr
-      - name: REGISTER
-        value: my_register
     steps:
       - task: Bash@3
         displayName: Get application name from repository
@@ -23,7 +19,7 @@ stages:
             }
             REPOSITORY_NAME="$(cut -d'/' -f2 <<< $(Build.Repository.Name))"
             echo "$REPOSITORY_NAME"
-            set_variable "REPOSITORY" $(REGISTER)/$REPOSITORY_NAME
+            set_variable "REPOSITORY" $REPOSITORY_NAME
       - task: Bash@3
         displayName: Checks for python version
         inputs:
