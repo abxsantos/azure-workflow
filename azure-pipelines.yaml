@@ -18,27 +18,42 @@ variables:
 stages:
 - stage:
   condition: eq(variables['Build.Reason'], 'PullRequest')
-  displayName: Prepare
+  displayName: Build
+  variables:
+    stage_variable: stage_variable
+  jobs:
   - job:
+    variables:
+      job_variable: job_variable
     steps:
       - task: Bash@3
-        displayName: Prepare variables
+        displayName: Prepare
         inputs:
           targetType: 'inline'
           script: |
-            set_variable(){
-              echo "Set key $1 as $2"
-              echo "##vso[task.setvariable variable=$1]$2"
-            }
-            echo $(GLOBAL_VARIABLE)
+            echo $(global_variable)
             if [[ "$(System.PullRequest.SourceBranch)" =~ .*"release/".* ]]; then
               echo "It's a release/* branch."
-              set_variable "GLOBAL_VARIABLE" true
+              echo '##vso[task.setvariable variable=global_variable]true'
+              echo '##vso[task.setvariable variable=global_variable]true'
             fi
-            echo $(GLOBAL_VARIABLE)
+            echo $(global_variable)
       - task: Bash@3
-        displayName: Check variables
+        displayName: Build Stage
         inputs:
           targetType: 'inline'
           script: |
-            echo $(GLOBAL_VARIABLE)
+            echo $(global_variable)
+
+            echo "Build reason is: $(Build.Reason)"
+            echo "Build id is: $(Build.BuildId)"
+            echo "Build source version is: $(Build.SourceVersion)"
+            echo "Build source branch is: $(Build.SourceBranch)"
+            echo "PR source branch: $(System.PullRequest.SourceBranch)"
+            echo "PR target branch: $(System.PullRequest.TargetBranch)"
+            echo "is feat?: $(isFeature)"
+            echo "is release?: $(isRelease)"
+            echo "is dev?: $(isDevelopment)"
+            echo "is main?: $(isMain)"
+            echo "I'm the build stage"
+            # if current branch is develop or master or release/* make build
