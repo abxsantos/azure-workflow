@@ -9,7 +9,7 @@ pr:
 pool: AzureWorkflowTutorial
 
 variables:
-  isFeature: $[eq(variables['System.PullRequest.SourceBranch'], *"feature/"*)]
+  isFeature: $[eq(variables['System.PullRequest.SourceBranch'], 'feature/')]
   isRelease: $[eq(variables['Build.SourceBranch'], 'release/*')]
   isDevelopment: $[eq(variables['Build.SourceBranch'], 'development')]
   isMain: $[eq(variables['Build.SourceBranch'], 'main')]
@@ -30,13 +30,14 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
+            stringContain() { [ -z "${2##*$1*}" ]; }
             echo "Build reason is: $(Build.Reason)"
             echo "Build id is: $(Build.BuildId)"
             echo "Build source version is: $(Build.SourceVersion)"
             echo "Build source branch is: $(Build.SourceBranch)"
             echo "PR source branch: $(System.PullRequest.SourceBranch)"
             echo "PR target branch: $(System.PullRequest.TargetBranch)"
-            echo "is feat?: $(isFeature)"
+            echo "is feat?: $(stringContain $System.PullRequest.SourceBranch 'feat')"
             echo "is release?: $(isRelease)"
             echo "is dev?: $(isDevelopment)"
             echo "is main?: $(isMain)"
