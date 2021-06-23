@@ -37,7 +37,7 @@ stages:
             echo "Build source branch is: $(Build.SourceBranch)"
             echo "PR source branch: $(System.PullRequest.SourceBranch)"
             echo "PR target branch: $(System.PullRequest.TargetBranch)"
-            echo "is feat?: $(stringContain $System.PullRequest.SourceBranch 'feat')"
+            echo "is feat?: $(stringContain $System.PullRequest.SourceBranch 'feat';  then echo yes; else echo no; fi)"
             echo "is release?: $(isRelease)"
             echo "is dev?: $(isDevelopment)"
             echo "is main?: $(isMain)"
