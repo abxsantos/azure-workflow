@@ -12,6 +12,11 @@ steps:
       REPOSITORY_NAME="$(cut -d'/' -f2 <<< $(Build.Repository.Name))"
       echo "$REPOSITORY_NAME"
       echo "$(pwd)"
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
+    architecture: 'x64'
 - task: Bash@3
   displayName: Checks for python version
   inputs:
