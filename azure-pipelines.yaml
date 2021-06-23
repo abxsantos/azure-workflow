@@ -57,4 +57,5 @@ stages:
             echo "$(isRelease)"
             echo "$(isDevelopment)"
             echo "$(isMain)"
+            echo "Build source branch is: $(Build.SourceBranch)"
             echo "I'm the build stage"
