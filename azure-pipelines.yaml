@@ -13,37 +13,16 @@ variables:
   isRelease: $[eq(variables['Build.SourceBranch'], 'release/*')]
   isDevelopment: $[eq(variables['Build.SourceBranch'], 'development')]
   isMain: $[eq(variables['Build.SourceBranch'], 'main')]
+  global_variable: global_value    # this is available to all jobs
 
 stages:
-#- stage:
-#  displayName: Quality check
-#  jobs:
-#  - job:
-#    steps:
-#      - task: Bash@3
-#        displayName: Lint stage
-#        inputs:
-#          targetType: 'inline'
-#          script: |
-#            REPOSITORY_NAME="$(cut -d'/' -f2 <<< $(Build.Repository.Name))"
-#            echo "$REPOSITORY_NAME"
-#            echo "I'm the linting stage"
-#- stage:
-#  displayName: Automated tests
-#  jobs:
-#  - job:
-#    steps:
-#      - task: Bash@3
-#        displayName: Test stage
-#        inputs:
-#          targetType: 'inline'
-#          script: |
-#            echo "$REPOSITORY_NAME"
-#            echo "I'm the testing stage"
 - stage:
   displayName: Build
+  variables:
+    stage_variable: stage_variable
   jobs:
   - job:
+    job_variable: job_variable
     steps:
       - task: Bash@3
         displayName: Build Stage
@@ -53,9 +32,11 @@ stages:
             echo "Build reason is: $(Build.Reason)"
             echo "Build id is: $(Build.BuildId)"
             echo "Build source version is: $(Build.SourceVersion)"
-            echo "$(isFeature)"
-            echo "$(isRelease)"
-            echo "$(isDevelopment)"
-            echo "$(isMain)"
             echo "Build source branch is: $(Build.SourceBranch)"
+            echo "PR source branch: $(System.PullRequest.SourceBranch)"
+            echo "PR target branch: $(System.PullRequest.TargetBranch)"
+            echo "is feat?: $(isFeature)"
+            echo "is release?: $(isRelease)"
+            echo "is dev?: $(isDevelopment)"
+            echo "is main?: $(isMain)"
             echo "I'm the build stage"
