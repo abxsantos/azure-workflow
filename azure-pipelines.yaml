@@ -31,7 +31,7 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            echo contains('release/', $(System.PullRequest.SourceBranch))
+            echo contains('release/', "$(System.PullRequest.SourceBranch)")
             echo "$IS_RELEASE"
             echo "latest-qa"
             echo "$(Build.BuildId)-$(Build.SourceVersion)"
