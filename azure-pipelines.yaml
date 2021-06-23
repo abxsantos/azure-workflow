@@ -42,39 +42,3 @@ stages:
           targetType: 'inline'
           script: |
             echo $(GLOBAL_VARIABLE)
-- stage:
-  displayName: Build
-  variables:
-    stage_variable: stage_variable
-  - job:
-    variables:
-      job_variable: job_variable
-    steps:
-      - task: Bash@3
-        displayName: Build Stage
-        inputs:
-          targetType: 'inline'
-          script: |
-            set_variable(){
-              echo "Set key $1 as $2"
-              echo "##vso[task.setvariable variable=$1]$2"
-            }
-            echo $(JOB_VARIABLE)
-            if [[ "$(System.PullRequest.SourceBranch)" =~ .*"release/".* ]]; then
-              echo "It's a release/* branch."
-              set_variable "JOB_VARIABLE" true
-            fi
-            echo $(JOB_VARIABLE)
-
-            echo "Build reason is: $(Build.Reason)"
-            echo "Build id is: $(Build.BuildId)"
-            echo "Build source version is: $(Build.SourceVersion)"
-            echo "Build source branch is: $(Build.SourceBranch)"
-            echo "PR source branch: $(System.PullRequest.SourceBranch)"
-            echo "PR target branch: $(System.PullRequest.TargetBranch)"
-            echo "is feat?: $(isFeature)"
-            echo "is release?: $(isRelease)"
-            echo "is dev?: $(isDevelopment)"
-            echo "is main?: $(isMain)"
-            echo "I'm the build stage"
-            # if current branch is develop or master or release/* make build
