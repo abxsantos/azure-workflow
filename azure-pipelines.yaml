@@ -27,27 +27,27 @@ stages:
           targetType: 'inline'
           script: |
             echo "Prepare stuff"
-- stage:
-  displayName: Code Quality
-  jobs:
-  - job:
-    displayName: Lint check s
-    steps:
-      - task: Bash@3
-        displayName: Run lint check
-        inputs:
-          targetType: 'inline'
-          script: |
-            echo "Prepare stuff"
-  - job:
-    displayName: Automated tests
-    steps:
-      - task: Bash@3
-        displayName: Run tests
-        inputs:
-          targetType: 'inline'
-          script: |
-            echo "Test stuff"
+#- stage:
+#  displayName: Code Quality
+#  jobs:
+#  - job:
+#    displayName: Lint check s
+#    steps:
+#      - task: Bash@3
+#        displayName: Run lint check
+#        inputs:
+#          targetType: 'inline'
+#          script: |
+#            echo "Prepare stuff"
+#  - job:
+#    displayName: Automated tests
+#    steps:
+#      - task: Bash@3
+#        displayName: Run tests
+#        inputs:
+#          targetType: 'inline'
+#          script: |
+#            echo "Test stuff"
 - stage:
   displayName: Build
   jobs:
@@ -62,18 +62,6 @@ stages:
             echo "############## Prepare tags ##############"
             tag_value=$(Build.BuildId)-$(Build.SourceVersion)
             echo "$tag_value"
-            if [[ $(isDevelopment) ]]
-            then
-              echo "development!!!"
-              echo "latest-dev"
-            elif [[ $(isRelease) ]]
-            then
-              echo "QA!!!"
-              echo "latest-qa"
-            elif [[ $(isMain) ]]
-              echo "prod!!!"
-              echo "latest-prd"
-            fi
             echo "Build reason is: $(Build.Reason)"
             echo "Build id is: $(Build.BuildId)"
             echo "Build source version is: $(Build.SourceVersion)"
@@ -86,3 +74,17 @@ stages:
             echo "is main?: $(isMain)"
             echo "contains test: $(containsTest)"
             echo "I'm the build stage"
+            if [[ $(isDevelopment) ]]
+            then
+              echo "development!!!"
+              echo "latest-dev"
+            elif [[ $(isRelease) ]]
+            then
+              echo "QA!!!"
+              echo "latest-qa"
+            elif [[ $(isMain) ]]
+              echo "prod!!!"
+              echo "latest-prd"
+            else
+              echo "wtf"
+            fi
