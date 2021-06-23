@@ -1,10 +1,22 @@
 trigger:
-- main
+  - main
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
 
-- script: ls -la
-  displayName: 'List files'
+  - script: ls -la
+    displayName: 'List files'
+
+stages:
+  - stage:
+    displayName: Lint check the project
+    jobs:
+      - job:
+        displayName: Lint check the project
+        steps:
+          - script: |
+              python3 --version
+              ls -la
+            displayName: "List all files"
