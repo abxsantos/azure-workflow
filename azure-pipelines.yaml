@@ -31,20 +31,13 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            echo $(global_variable)
-            if [[ "$(System.PullRequest.SourceBranch)" =~ .*"release/".* ]]; then
-              echo "It's a release/* branch."
-              echo '##vso[task.setvariable variable=global_variable]true'
-              echo '##vso[task.setvariable variable=global_variable]true'
-            fi
-            echo $(global_variable)
+            'env | sort'
       - task: Bash@3
         displayName: Build Stage
         inputs:
           targetType: 'inline'
           script: |
             echo $(global_variable)
-
             echo "Build reason is: $(Build.Reason)"
             echo "Build id is: $(Build.BuildId)"
             echo "Build source version is: $(Build.SourceVersion)"
