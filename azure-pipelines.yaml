@@ -17,27 +17,63 @@ variables:
 
 stages:
 - stage:
-  condition: eq(variables['Build.Reason'], 'PullRequest')
-  displayName: Build
-  variables:
-    stage_variable: stage_variable
+  displayName: Prepare
   jobs:
   - job:
-    variables:
-      job_variable: job_variable
     steps:
       - task: Bash@3
         displayName: Prepare
         inputs:
           targetType: 'inline'
           script: |
-            echo "latest-qa"
-            echo "$(Build.BuildId)-$(Build.SourceVersion)"
+            echo "Prepare stuff"
+- stage:
+  displayName: Code Quality
+  jobs:
+  - job:
+    displayName: Lint check s
+    steps:
       - task: Bash@3
-        displayName: Build Stage
+        displayName: Run lint check
         inputs:
           targetType: 'inline'
           script: |
+            echo "Prepare stuff"
+  - job:
+    displayName: Automated tests
+    steps:
+      - task: Bash@3
+        displayName: Run tests
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "Test stuff"
+- stage:
+  displayName: Build
+  jobs:
+  - job:
+    displayName: Build project
+    steps:
+      - task: Bash@3
+        displayName: Run build steps
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "############## Prepare tags ##############"
+            tag_value=$(Build.BuildId)-$(Build.SourceVersion)
+            echo "$tag_value"
+            if [[ $(isDevelopment) ]]
+            then
+              echo "development!!!"
+              echo "latest-dev"
+            elif [[ $(isRelease) ]]
+            then
+              echo "QA!!!"
+              echo "latest-qa"
+            elif [[ $(isMain) ]]
+              echo "prod!!!"
+              echo "latest-prd"
+            fi
             echo "Build reason is: $(Build.Reason)"
             echo "Build id is: $(Build.BuildId)"
             echo "Build source version is: $(Build.SourceVersion)"
@@ -50,4 +86,3 @@ stages:
             echo "is main?: $(isMain)"
             echo "contains test: $(containsTest)"
             echo "I'm the build stage"
-            # if current branch is develop or master or release/* make build
