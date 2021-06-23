@@ -9,7 +9,7 @@ pr:
 pool: AzureWorkflowTutorial
 
 variables:
-  isFeature: $[eq(variables['Build.SourceBranch'], 'feature/*')]
+  isFeature: $[eq(variables['System.PullRequest.SourceBranch'], 'feature/*')]
   isRelease: $[eq(variables['Build.SourceBranch'], 'release/*')]
   isDevelopment: $[eq(variables['Build.SourceBranch'], 'development')]
   isMain: $[eq(variables['Build.SourceBranch'], 'main')]
