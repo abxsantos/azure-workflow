@@ -1,29 +1,29 @@
 trigger:
 - main
+- release/*
+- development
+
+pr:
+- development
 
 pool: AzureWorkflowTutorial
 
 stages:
 - stage:
+  displayName: Quality check
   jobs:
   - job:
     steps:
-      - task: Bash@3
-        displayName: Get application name from repository
-        inputs:
-          targetType: 'inline'
-          script: |
-            REPOSITORY_NAME="$(cut -d'/' -f2 <<< $(Build.Repository.Name))"
-            echo "$REPOSITORY_NAME"
-            export REPOSITORY_NAME=$REPOSITORY_NAME
       - task: Bash@3
         displayName: Lint stage
         inputs:
           targetType: 'inline'
           script: |
+            REPOSITORY_NAME="$(cut -d'/' -f2 <<< $(Build.Repository.Name))"
             echo "$REPOSITORY_NAME"
             echo "I'm the linting stage"
 - stage:
+  displayName: Automated tests
   jobs:
   - job:
     steps:
@@ -35,6 +35,7 @@ stages:
             echo "$REPOSITORY_NAME"
             echo "I'm the testing stage"
 - stage:
+  displayName: Build
   jobs:
   - job:
     steps:
