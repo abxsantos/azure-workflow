@@ -1,22 +1,19 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
 trigger:
-  - main
+- master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
+- script: ls -la
+  displayName: 'Run a one-line script'
 
-  - script: ls -la
-    displayName: 'List files'
-
-stages:
-  - stage:
-    displayName: Lint check the project
-    jobs:
-      - job:
-        displayName: Lint check the project
-        steps:
-          - script: |
-              python3 --version
-              ls -la
-            displayName: "List all files"
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
