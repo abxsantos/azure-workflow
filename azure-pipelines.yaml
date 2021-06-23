@@ -13,29 +13,25 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            set_variable(){
-              echo "Set key $1 as $2"
-              echo "##vso[task.setvariable variable=$1]$2"
-            }
             REPOSITORY_NAME="$(cut -d'/' -f2 <<< $(Build.Repository.Name))"
             echo "$REPOSITORY_NAME"
-            set_variable "REPOSITORY" $REPOSITORY_NAME
+            export $REPOSITORY_NAME=$REPOSITORY_NAME
       - task: Bash@3
-        displayName: Checks for python version
+        displayName: Lint stage
         inputs:
           targetType: 'inline'
           script: |
             echo "$REPOSITORY_NAME"
             echo "I'm the linting stage"
       - task: Bash@3
-        displayName: Checks for python version
+        displayName: Test stage
         inputs:
           targetType: 'inline'
           script: |
             echo "$REPOSITORY_NAME"
             echo "I'm the testing stage"
       - task: Bash@3
-        displayName: Checks for python version
+        displayName: Build Stage
         inputs:
           targetType: 'inline'
           script: |
