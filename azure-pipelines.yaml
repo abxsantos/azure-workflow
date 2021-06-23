@@ -1,14 +1,22 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
 pool: AzureWorkflowTutorial
 
 steps:
-- script: |
-    ls -la
-  displayName: 'Run a multi-line script'
+- task: Bash@3
+  displayName: Prints repository name
+  inputs:
+    targetType: 'inline'
+    script: |
+      REPOSITORY_NAME="$(cut -d'/' -f2 <<< $(Build.Repository.Name))"
+      echo "$REPOSITORY_NAME"
+      echo "$(pwd)"
+- task: Bash@3
+  displayName: Checks python3 version
+  inputs:
+    targetType: 'inline'
+    script: |
+      python3 --version
+      pip3 install black
+      black --check azure_workflow
