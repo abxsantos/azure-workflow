@@ -22,7 +22,8 @@ stages:
     stage_variable: stage_variable
   jobs:
   - job:
-    job_variable: job_variable
+    variables:
+      job_variable: job_variable
     steps:
       - task: Bash@3
         displayName: Build Stage
