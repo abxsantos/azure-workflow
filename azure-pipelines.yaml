@@ -48,5 +48,6 @@ stages:
             echo "is release?: $(isRelease)"
             echo "is dev?: $(isDevelopment)"
             echo "is main?: $(isMain)"
+            echo "contains test: $(containsTest)"
             echo "I'm the build stage"
             # if current branch is develop or master or release/* make build
