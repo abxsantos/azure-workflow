@@ -9,8 +9,8 @@ pr:
 pool: AzureWorkflowTutorial
 
 variables:
-  isFeature: $[contains('feature', variables['System.PullRequest.SourceBranch'])]
-  isRelease: $[contains('release', variables['System.PullRequest.SourceBranch'])]
+  isFeature: $[contains(variables['System.PullRequest.SourceBranch'], 'feature')]
+  isRelease: $[contains(variables['System.PullRequest.SourceBranch'], 'release')]
   isDevelopment: $[eq(variables['Build.SourceBranch'], 'development')]
   isMain: $[eq(variables['Build.SourceBranch'], 'main')]
   containsTest: $[contains('ABCDE', 'BCD')]
