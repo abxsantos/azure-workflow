@@ -22,4 +22,4 @@ steps:
       python --version
       pip --version
       pip install black
-      black --check azure_worflow
+      python3 -m black --check azure_worflow
