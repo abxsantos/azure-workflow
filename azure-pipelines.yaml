@@ -3,25 +3,45 @@ trigger:
 
 pool: AzureWorkflowTutorial
 
-steps:
-- task: Bash@3
-  displayName: Get application name from repository
-  inputs:
-    targetType: 'inline'
-    script: |
-      set_variable(){
-        echo "Set key $1 as $2"
-        echo "##vso[task.setvariable variable=$1]$2"
-      }
-      REPOSITORY_NAME="$(cut -d'/' -f2 <<< $(Build.Repository.Name))"
-      echo "$REPOSITORY_NAME"
-      set_variable "REPOSITORY" $(REGISTER)/$REPOSITORY_NAME
-- task: Bash@3
-  displayName: Checks for python version
-  inputs:
-    targetType: 'inline'
-    script: |
-      echo "$REPOSITORY_NAME"
-      pip --version
-      pip install black
-      python3 -m black --check azure_workflow
+stages:
+- stage:
+  jobs:
+  - job:
+    variables:
+      - group: publish-to-ecr
+      - name: REGISTER
+        value: my_register
+    steps:
+      - task: Bash@3
+        displayName: Get application name from repository
+        inputs:
+          targetType: 'inline'
+          script: |
+            set_variable(){
+              echo "Set key $1 as $2"
+              echo "##vso[task.setvariable variable=$1]$2"
+            }
+            REPOSITORY_NAME="$(cut -d'/' -f2 <<< $(Build.Repository.Name))"
+            echo "$REPOSITORY_NAME"
+            set_variable "REPOSITORY" $(REGISTER)/$REPOSITORY_NAME
+      - task: Bash@3
+        displayName: Checks for python version
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "$REPOSITORY_NAME"
+            echo "I'm the linting stage"
+      - task: Bash@3
+        displayName: Checks for python version
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "$REPOSITORY_NAME"
+            echo "I'm the testing stage"
+      - task: Bash@3
+        displayName: Checks for python version
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "$REPOSITORY_NAME"
+            echo "I'm the build stage"
