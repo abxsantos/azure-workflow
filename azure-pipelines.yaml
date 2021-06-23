@@ -31,7 +31,7 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            IS_RELEASE=contains('release/', $(System.PullRequest.SourceBranch))
+            echo contains('release/', $(System.PullRequest.SourceBranch))
             echo "$IS_RELEASE"
             echo "latest-qa"
             echo "$(Build.BuildId)-$(Build.SourceVersion)"
@@ -40,16 +40,16 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            echo $(global_variable)
-            echo "Build reason is: $(Build.Reason)"
-            echo "Build id is: $(Build.BuildId)"
-            echo "Build source version is: $(Build.SourceVersion)"
-            echo "Build source branch is: $(Build.SourceBranch)"
-            echo "PR source branch: $(System.PullRequest.SourceBranch)"
-            echo "PR target branch: $(System.PullRequest.TargetBranch)"
-            echo "is feat?: $(isFeature)"
-            echo "is release?: $(isRelease)"
-            echo "is dev?: $(isDevelopment)"
-            echo "is main?: $(isMain)"
-            echo "I'm the build stage"
-            # if current branch is develop or master or release/* make build
+#            echo $(global_variable)
+#            echo "Build reason is: $(Build.Reason)"
+#            echo "Build id is: $(Build.BuildId)"
+#            echo "Build source version is: $(Build.SourceVersion)"
+#            echo "Build source branch is: $(Build.SourceBranch)"
+#            echo "PR source branch: $(System.PullRequest.SourceBranch)"
+#            echo "PR target branch: $(System.PullRequest.TargetBranch)"
+#            echo "is feat?: $(isFeature)"
+#            echo "is release?: $(isRelease)"
+#            echo "is dev?: $(isDevelopment)"
+#            echo "is main?: $(isMain)"
+#            echo "I'm the build stage"
+#            # if current branch is develop or master or release/* make build
