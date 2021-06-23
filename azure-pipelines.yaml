@@ -1,7 +1,7 @@
 trigger:
 - main
 
-pool: AzureWorkflowTutorial
+pool: default
 
 steps:
 - task: Bash@3
