@@ -30,15 +30,22 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            stringContain() { [ -z "${2##*$1*}" ]; }
+            echo $(JOB_VARIABLE)
+            if [[ "$(System.PullRequest.SourceBranch)" =~ .*"release/".* ]]; then
+              echo "It's a release/* branch."
+              echo "##vso[task.setvariable variable=job_variable]True"
+            fi
+            echo $(JOB_VARIABLE)
+
             echo "Build reason is: $(Build.Reason)"
             echo "Build id is: $(Build.BuildId)"
             echo "Build source version is: $(Build.SourceVersion)"
             echo "Build source branch is: $(Build.SourceBranch)"
             echo "PR source branch: $(System.PullRequest.SourceBranch)"
             echo "PR target branch: $(System.PullRequest.TargetBranch)"
-            echo "is feat?: $(stringContain $System.PullRequest.SourceBranch 'feat';  then echo yes; else echo no; fi)"
+            echo "is feat?: $(isFeature)"
             echo "is release?: $(isRelease)"
             echo "is dev?: $(isDevelopment)"
             echo "is main?: $(isMain)"
             echo "I'm the build stage"
+            # if current branch is develop or master or release/* make build
