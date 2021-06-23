@@ -13,6 +13,7 @@ steps:
       echo "$REPOSITORY_NAME"
       echo "$(pwd)"
 - task: UsePythonVersion@0
+  displayName: Uses latest python version
   inputs:
     versionSpec: '3.x'
     addToPath: true
