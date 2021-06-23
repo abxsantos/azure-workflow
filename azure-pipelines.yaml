@@ -44,5 +44,7 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            echo "$REPOSITORY_NAME"
+            echo $(Build.Reason)
+            echo $(Build.BuildId)
+            echo $(Build.SourceVersion)
             echo "I'm the build stage"
