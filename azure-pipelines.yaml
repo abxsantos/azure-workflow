@@ -30,8 +30,7 @@ stages:
         displayName: Prepare
         inputs:
           targetType: 'inline'
-          script: |
-            'env | sort'
+          script: 'env | sort'
       - task: Bash@3
         displayName: Build Stage
         inputs:
