@@ -15,7 +15,7 @@ stages:
           script: |
             REPOSITORY_NAME="$(cut -d'/' -f2 <<< $(Build.Repository.Name))"
             echo "$REPOSITORY_NAME"
-            export $REPOSITORY_NAME=$REPOSITORY_NAME
+            export REPOSITORY_NAME=$REPOSITORY_NAME
       - task: Bash@3
         displayName: Lint stage
         inputs:
@@ -23,6 +23,10 @@ stages:
           script: |
             echo "$REPOSITORY_NAME"
             echo "I'm the linting stage"
+- stage:
+  jobs:
+  - job:
+    steps:
       - task: Bash@3
         displayName: Test stage
         inputs:
@@ -30,6 +34,10 @@ stages:
           script: |
             echo "$REPOSITORY_NAME"
             echo "I'm the testing stage"
+- stage:
+  jobs:
+  - job:
+    steps:
       - task: Bash@3
         displayName: Build Stage
         inputs:
