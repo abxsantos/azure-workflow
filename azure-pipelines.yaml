@@ -16,38 +16,38 @@ variables:
   containsTest: $[contains('ABCDE', 'BCD')]
 
 stages:
-#- stage:
-#  displayName: Prepare
-#  jobs:
-#  - job:
-#    steps:
-#      - task: Bash@3
-#        displayName: Prepare
-#        inputs:
-#          targetType: 'inline'
-#          script: |
-#            echo "Prepare stuff"
-#- stage:
-#  displayName: Code Quality
-#  jobs:
-#  - job:
-#    displayName: Lint check s
-#    steps:
-#      - task: Bash@3
-#        displayName: Run lint check
-#        inputs:
-#          targetType: 'inline'
-#          script: |
-#            echo "Prepare stuff"
-#  - job:
-#    displayName: Automated tests
-#    steps:
-#      - task: Bash@3
-#        displayName: Run tests
-#        inputs:
-#          targetType: 'inline'
-#          script: |
-#            echo "Test stuff"
+- stage:
+  displayName: Prepare
+  jobs:
+  - job:
+    steps:
+      - task: Bash@3
+        displayName: Prepare
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "Prepare stuff"
+- stage:
+  displayName: Code Quality
+  jobs:
+  - job:
+    displayName: Lint check s
+    steps:
+      - task: Bash@3
+        displayName: Run lint check
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "Prepare stuff"
+  - job:
+    displayName: Automated tests
+    steps:
+      - task: Bash@3
+        displayName: Run tests
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "Test stuff"
 - stage:
   displayName: Build
   jobs:
