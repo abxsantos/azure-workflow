@@ -27,6 +27,7 @@ stages:
           targetType: 'inline'
           script: |
             echo "Prepare stuff"
+
 - stage:
   displayName: Code Quality
   jobs:
@@ -48,6 +49,7 @@ stages:
           targetType: 'inline'
           script: |
             echo "Test stuff"
+
 - stage:
   displayName: Build
   jobs:
