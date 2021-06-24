@@ -8,41 +8,86 @@ pr:
 
 pool: AzureWorkflowTutorial
 
+variables:
+  isFeature: $[contains(variables['System.PullRequest.SourceBranch'], 'feature')]
+  isRelease: $[contains(variables['System.PullRequest.SourceBranch'], 'release')]
+  isDevelopment: $[eq(variables['Build.SourceBranch'], 'development')]
+  isMain: $[eq(variables['Build.SourceBranch'], 'main')]
+  containsTest: $[contains('ABCDE', 'BCD')]
+
 stages:
 - stage:
-  displayName: Quality check
+  displayName: Prepare
   jobs:
   - job:
     steps:
       - task: Bash@3
-        displayName: Lint stage
+        displayName: Prepare
         inputs:
           targetType: 'inline'
           script: |
-            REPOSITORY_NAME="$(cut -d'/' -f2 <<< $(Build.Repository.Name))"
-            echo "$REPOSITORY_NAME"
-            echo "I'm the linting stage"
+            echo "Prepare stuff"
+
 - stage:
-  displayName: Automated tests
+  displayName: Code Quality
   jobs:
   - job:
+    displayName: Lint check s
     steps:
       - task: Bash@3
-        displayName: Test stage
+        displayName: Run lint check
         inputs:
           targetType: 'inline'
           script: |
-            echo "$REPOSITORY_NAME"
-            echo "I'm the testing stage"
+            echo "Prepare stuff"
+  - job:
+    displayName: Automated tests
+    steps:
+      - task: Bash@3
+        displayName: Run tests
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "Test stuff"
+
 - stage:
   displayName: Build
   jobs:
   - job:
+    displayName: Build project
     steps:
       - task: Bash@3
-        displayName: Build Stage
+        displayName: Run build steps
         inputs:
           targetType: 'inline'
           script: |
-            echo "$REPOSITORY_NAME"
+            echo "############## Prepare tags ##############"
+            tag_value=$(Build.BuildId)-$(Build.SourceVersion)
+            echo "$tag_value"
+            echo "Build reason is: $(Build.Reason)"
+            echo "Build id is: $(Build.BuildId)"
+            echo "Build source version is: $(Build.SourceVersion)"
+            echo "Build source branch is: $(Build.SourceBranch)"
+            echo "PR source branch: $(System.PullRequest.SourceBranch)"
+            echo "PR target branch: $(System.PullRequest.TargetBranch)"
+            echo "is feat?: $(isFeature)"
+            echo "is release?: $(isRelease)"
+            echo "is dev?: $(isDevelopment)"
+            echo "is main?: $(isMain)"
+            echo "contains test: $(containsTest)"
             echo "I'm the build stage"
+            if [[ $(isDevelopment) ]]
+            then
+              echo "development!!!"
+              echo "latest-dev"
+            elif [[ $(isRelease) ]]
+            then
+              echo "QA!!!"
+              echo "latest-qa"
+            elif [[ $(isMain) ]]
+            then
+              echo "prod!!!"
+              echo "latest-prd"
+            else
+              echo "wtf"
+            fi
